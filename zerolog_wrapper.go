@@ -120,7 +120,7 @@ func InitLog(logLevelStr LogLevel, appEnv Env) {
 		}
 
 		log = zerolog.New(output).
-			Level(zerolog.Level(logLevel)).
+			Level(logLevel).
 			With().
 			Timestamp().
 			IPAddr("host_ip", getLocalIP()).
