@@ -66,7 +66,7 @@ var log zerolog.Logger
 
 // Get local address of the running system
 func getLocalIP() net.IP {
-	conn, err := net.Dial("udp", "1.1.1.1:http")
+	conn, err := net.Dial("udp", "1.1.1.1:53")
 	if err != nil {
 		log.Fatal().Err(err)
 	}
