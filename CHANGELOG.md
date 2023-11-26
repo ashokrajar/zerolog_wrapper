@@ -7,6 +7,20 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.0] - 2023-11-26
+
+### Added
+
+- added a new function to update the logger context
+
+### Fixed
+
+- fixing the getLocalIP function to work with Linux and Windows
+
+### Code Quality
+
+- removing redundant type conversion
+
 ## [0.1.0] - 2023-06-11
 
 Initial Release
