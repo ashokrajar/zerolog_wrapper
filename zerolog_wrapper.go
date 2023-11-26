@@ -19,6 +19,12 @@
 //
 //	log.Info().Str("foo", "bar").Msg("hello world")
 //	// Output: {"time":1494567715,"level":"info","message":"hello world","foo":"bar"}
+//
+// # Updating the logger context
+//
+//	log.UpdateContext(func(c zerolog.Context) zerolog.Context {
+//				return c.Str("some_default_key", "some_default_value")
+//			})
 package zerolog_wrapper
 
 import (
@@ -122,6 +128,20 @@ func InitLog(logLevelStr LogLevel, appEnv Env) {
 			Logger()
 		log.With().Caller()
 	})
+}
+
+// UpdateContext is a function that updates the internal logger's context.
+//
+// Parameters:
+// update: A function taking a zerolog.Context as input and then returns a zerolog.Context.
+//
+// eg:
+//
+//	log.UpdateContext(func(c zerolog.Context) zerolog.Context {
+//		return c.Str("some_default_key", "some_default_value")
+//	})
+func UpdateContext(update func(c zerolog.Context) zerolog.Context) {
+	log.UpdateContext(update)
 }
 
 // Trace starts a new message with trace level.
