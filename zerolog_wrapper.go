@@ -125,7 +125,11 @@ func InitLog(logLevelStr LogLevel, appEnv Env) {
 			Timestamp().
 			IPAddr("host_ip", getLocalIP()).
 			Logger()
-		log.With().Caller()
+
+		if logLevelStr == TraceLevel || appEnv == Dev {
+			log = log.With().Caller().Logger()
+		}
+
 	})
 }
 
