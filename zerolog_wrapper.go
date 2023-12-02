@@ -62,13 +62,13 @@ const (
 
 var once sync.Once
 
-var Logger zerolog.Logger
+var log zerolog.Logger
 
 // Get local address of the running system
 func getLocalIP() net.IP {
 	conn, err := net.Dial("udp", "1.1.1.1:53")
 	if err != nil {
-		Logger.Fatal().Err(err)
+		log.Fatal().Err(err)
 	}
 	defer conn.Close()
 
@@ -119,14 +119,13 @@ func InitLog(logLevelStr LogLevel, appEnv Env) {
 			return shortPath + ":" + strconv.Itoa(line)
 		}
 
-		Logger = zerolog.New(output).
+		log = zerolog.New(output).
 			Level(logLevel).
 			With().
 			Timestamp().
 			IPAddr("host_ip", getLocalIP()).
-			Caller().
 			Logger()
-		Logger.With().Caller()
+		log.With().Caller()
 	})
 }
 
@@ -141,54 +140,63 @@ func InitLog(logLevelStr LogLevel, appEnv Env) {
 //		return c.Str("some_default_key", "some_default_value")
 //	})
 func UpdateContext(update func(c zerolog.Context) zerolog.Context) {
-	Logger.UpdateContext(update)
+	log.UpdateContext(update)
+}
+
+// GetLogger returns the global logger from the zerolog package.
+//
+// Returns:
+//
+//	The zerolog.Logger instance used for logging in the application.
+func GetLogger() zerolog.Logger {
+	return log
 }
 
 // Trace starts a new message with trace level.
 //
 // You must call Msg on the returned event in order to send the event.
 func Trace() *zerolog.Event {
-	return Logger.Trace()
+	return log.Trace()
 }
 
 // Debug starts a new message with debug level.
 //
 // You must call Msg on the returned event in order to send the event.
 func Debug() *zerolog.Event {
-	return Logger.Debug()
+	return log.Debug()
 }
 
 // Info starts a new message with info level.
 //
 // You must call Msg on the returned event in order to send the event.
 func Info() *zerolog.Event {
-	return Logger.Info()
+	return log.Info()
 }
 
 // Warn starts a new message with warn level.
 //
 // You must call Msg on the returned event in order to send the event.
 func Warn() *zerolog.Event {
-	return Logger.Warn()
+	return log.Warn()
 }
 
 // Error starts a new message with error level.
 //
 // You must call Msg on the returned event in order to send the event.
 func Error() *zerolog.Event {
-	return Logger.Error()
+	return log.Error()
 }
 
 // Fatal starts a new message with fatal level.
 //
 // You must call Msg on the returned event in order to send the event.
 func Fatal() *zerolog.Event {
-	return Logger.Fatal()
+	return log.Fatal()
 }
 
 // Panic starts a new message with panic level.
 //
 // You must call Msg on the returned event in order to send the event.
 func Panic() *zerolog.Event {
-	return Logger.Panic()
+	return log.Panic()
 }
